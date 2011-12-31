@@ -1,0 +1,88 @@
+Tree_Watch_Dog Platform
+=======================
+The Tree_Watch_Dog Platform is an open source web/phone application for PLANTED/CUT TREES information collection and ANALYSIS, vizualisation and interactive 
+mapping. The methods of reporting TREE incidents done from various sources and locations include reports that come in through web and phones where country 
+citizens can report any incidents that they have seen relating to the destruction of the trees or tree planting in their regions.
+For more information about the platform and use cases (case studies) visit: http://www.treewatchdog.xqdoc.com
+
+
+System Requirements
+-------------------
+To install the platform on your computer/server, the target system must meet the following requirements:
+
+* PHP version 5.2.3 or greater
+* MySQL version 5.0 or greater
+
+Required Extensions
+-------------------
+The follwing is a list of PHP extensions that must be installed on your server in order for Tree_Watch_Dog to run properly:
+
+* PCRE (http://php.net/pcre) must be compiled with –enable-utf8 and –enable-unicode-properties for UTF-8 functions to work properly.
+* iconv (http://php.net/iconv) is required for UTF-8 transliteration.
+* mcrypt (http://php.net/mcrypt) is required for encryption.
+* SPL (http://php.net/spl) is required for several core libraries
+* mbstring (http://php.net/mbstring) which speeds up Kohana's UTF-8 functions.
+* cURL (http://php.net/curl) which is used to access remote sites.
+* MySQL (http://php.net/mysql) is required for database access.
+
+#####NOTE: Need to figure out what extensions you already have installed on your server? Here are instructions to do just that: http://jontangerine.com/silo/php/phpinfo/
+
+Installation
+------------
+* ####Download and extract Tree_Watch_Dog
+    You can obtain the release running the latest version  of the from [GitHub](https://github.com/wamala22/climate_watch_dog) - the files are available in .zip and .tar.gz
+    
+    Unzip/extract the archive:
+    This will create a new directory containing all the Tree_Watch_Dog platform files and directories 
+    Move the contents of this directory into a directory within your webserver's document root or your public HTML directory.
+
+* ####Ensure the following directories are writable (i.e. have their permission values set to 777)
+    - application/config/config.php
+    - application/config
+    - application/cache
+    - application/logs
+    - media/uploads
+    - .htaccess
+    
+    On Unix/Linux, you can change the permissions as follows:
+
+        cd path-to-webserver-document-root-directory
+        chmod -R 777 application/config
+        chmod -R 777 application/cache
+        chmod -R 777 application/logs
+        chmod -R 777 media/uploads
+        chmod 777 .htaccess
+        
+    #####NOTE: The process of configuring file permissions is different for various operating systems. Here are some helpful links about permissions for the Windows (http://support.microsoft.com/kb/308419) and Unix (http://www.washington.edu/computing/unix/permissions.html) operating systems.
+
+* ####Create the Tree_Watch_Dog database
+    Tree_Watch_Dog stores all its information in a database. You must therefore create this database in order to install Ushahidi. This is done as follows:
+    
+        mysqladmin -u 'username' -p create 'databasename'
+    
+    MySQL will prompt for the password for the <username> database password and then create the initial database files. Next, you must log in and set the 
+    database access rights:
+    
+        mysql -u 'username' -p
+    
+    Again, you will be prompted for the 'username' database password. At the MySQL prompt, enter the following command:
+    
+        GRANT SELECT, INSERT, DELETE, UPDATE, CREATE, DROP, ALTER, INDEX on 'databasename'.* 
+        TO 'username'@'localhost' IDENFIFIED BY 'password';
+        Import the file climate_watch_dog.sql found in the root of this folder. 
+        This will populate the created database will all the tables used by Tree_Watch_Dog.
+
+        Open file /application/config/database.php and edit the values of array variables
+            'database', 'user', and 'pass' 
+        with the 'databasename', 'username' and 'password' respectively to the database that you have just created.
+    
+    Where:
+    - 'databasename' is the name of your database
+    - 'username@localhost' is the name of your MySQL account
+    - 'password' is the password required for that username
+
+    #####NOTE: Your account must have all the privileges listed above in order to run Tree_Watch_Dog on your webserver.
+
+    Now you can point your browser to the base url of your website: (e.g. http://www.example.com).
+
+    Am working on the official install script, that will guide you through a series of screen shots to set up the DB and site settings. 
